@@ -1,10 +1,10 @@
 package com.example.notes.activity
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -13,12 +13,15 @@ import com.example.a14_recyclerviewdragandswipekotlin.helper.RecyclerItemTouchHe
 import com.example.notes.R
 import com.example.notes.adapter.NotesAdapter
 import com.example.notes.model.Notes
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
-    lateinit var bt_add :Button
+    lateinit var bt_add :FloatingActionButton
     lateinit var recyclerView: RecyclerView
     private var adapter: NotesAdapter? = null
     lateinit var et_notes: EditText
@@ -55,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         builder.setPositiveButton("Save") { dialog, which -> // send data from the
                 // AlertDialog to the Activity
             et_notes= customLayout.findViewById(R.id.et_notes)
-            courseModalArrayList.add(Notes(et_notes.text.toString()))
+            courseModalArrayList.add(getNote(et_notes.text.toString()))
             adapter!!.notifyItemInserted(courseModalArrayList.size);
             saveArrayList()
         }
@@ -66,6 +69,14 @@ class MainActivity : AppCompatActivity() {
         // the alert dialog
         val dialog = builder.create()
         dialog.show()
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun getNote(text: String?): Notes {
+        val date = Calendar.getInstance().time
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy")
+        val dateText = dateFormat.format(date)
+        return Notes(text!!, dateText)
     }
 
     private fun buildRecyclerView() {

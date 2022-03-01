@@ -27,8 +27,12 @@ class NotesAdapter(var context: MainActivity, var items: ArrayList<Notes>): Recy
         val chat = items[position]
         if (holder is AddedViewHolderYes){
             val tv_note = holder.tv_note
+            val tv_date = holder.tv_date
             val iv_remove = holder.iv_remove
+
             tv_note.text = chat.note
+            tv_date.text = chat.date
+
             iv_remove.setOnClickListener {
                 items.remove(chat)
             }
@@ -37,6 +41,7 @@ class NotesAdapter(var context: MainActivity, var items: ArrayList<Notes>): Recy
 
     class AddedViewHolderYes(view: View) : RecyclerView.ViewHolder(view) {
         var tv_note : TextView = view.findViewById(R.id.tv_note)
+        var tv_date : TextView = view.findViewById(R.id.tv_date)
         var iv_remove : ImageView = view.findViewById(R.id.iv_remove)
         var view_background: RelativeLayout = view.findViewById(R.id.view_background)
         var view_foreground: RelativeLayout = view.findViewById(R.id.view_foreground)
